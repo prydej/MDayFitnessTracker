@@ -1,5 +1,8 @@
 package fitness_app;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -12,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
@@ -36,8 +40,6 @@ public class FitnessGUI extends Application {
 	
 	TabPane tabPane;
 	Tab enterDataTab, retrieveDataTab;
-	
-	Tracker tracker;
 
 	public FitnessGUI(){
 		//Instantiate panes
@@ -77,6 +79,9 @@ public class FitnessGUI extends Application {
 		//Instantiate text field
 		number = new TextField();
 		time = new TextField();
+		
+		//Set tab pane closing policy to unavailable
+		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
 		//Set initial grid constraints
 		GridPane.setConstraints(pickExercise, 1, 1);
@@ -137,9 +142,9 @@ public class FitnessGUI extends Application {
 	@Override
 	public void start(Stage stage) throws Exception{
 
-		//
+		//--
 		//Event handlers
-
+		//--
 		//Change text when walking
 		walking.setOnAction(e -> setWalkingText());
 
@@ -150,11 +155,11 @@ public class FitnessGUI extends Application {
 		burpees.setOnAction(e -> setRegularText());
 		
 		//Handle enter button
-		enter.setOnAction(e -> startTracker());
+		enter.setOnAction(e -> startTrackerIO());
 		
-		//
+		//--
 		//Bring it all together
-
+		//--
 		//Create scene
 		Scene scene = new Scene(tabPane, 400, 250);
 
@@ -190,12 +195,38 @@ public class FitnessGUI extends Application {
 		enterTime.setVisible(false);
 	}
 	
-	public void startTracker(){
-		//Create Tracker Object
-		tracker = new Tracker();
+	public void startTrackerIO(){
+		//Create TrackerIO Object
+		TrackerIO io = new TrackerIO();
+		Workout selected = new Workout();
 		
-		//Call Tracker.writeToFile
-		tracker.writeToFile();
+		//Set selected var to instance of chosen workout
+		if(pushUps.isSelected()){
+			selected = new PushUps();
+		} else if (sitUps.isSelected()){
+			selected = new SitUps();
+		} else if (walking.isSelected()){
+			selected = new Walking();
+		} else if (burpees.isSelected()){
+			selected = new Burpees();
+		} else if (squats.isSelected()){
+			selected = new Squats();
+		}
+		
+		//Create ArrayList of information given
+		ArrayList<Double> infoGiven = new ArrayList<Double>();
+		
+		infoGiven.add(Math.floor(Double.parseDouble(number.getText())*100)/100); //Add value in number as double rounded to 2 decimal places
+		
+		if (walking.isSelected()){ //only add time if it was asked
+			infoGiven.add(Math.floor(Double.parseDouble(time.getText())*100)/100);
+		}
+		
+		//Call TrackerIO.writeToFile
+		//if not walking, call regular writer
+		if(!walking.isSelected()){
+			io.writeToFile(infoGiven, selected);
+		}
 	}
 
 }
