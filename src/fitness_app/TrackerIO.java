@@ -3,17 +3,19 @@ package fitness_app;
 import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.TimeZone;
+//import java.util.Collections;
+//import java.util.Date;
+//import java.util.List;
+//import java.lang.reflect.Type;
 
-import javax.xml.ws.Response;
+//import javax.xml.ws.Response;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import com.sun.media.jfxmedia.logging.Logger;
+//import com.google.gson.reflect.TypeToken;
+//import com.sun.media.jfxmedia.logging.Logger;
 
 /**
  * @author Julian Pryde
@@ -55,8 +57,10 @@ public class TrackerIO{
 		String workoutsJson;
 
 		//If file exists, read and append
-		File existingFile = new File("Workouts.json");
-		if (!existingFile.exists() || existingFile.isDirectory()){
+		File existingFile = new File(filename);
+		boolean fileExists = existingFile.exists();
+		boolean fileIsDir = existingFile.isDirectory();
+		if (fileExists && !fileIsDir){
 
 			//Read from file
 			workouts = this.readFromFile();
@@ -71,12 +75,19 @@ public class TrackerIO{
 
 			cardio = (Cardio) workout; //Create cardio object
 			cardio.setDistance(infoGiven.get(0)); //Set distance
-			cardio.setMinutes((int) Math.floor(infoGiven.get(1))); // Set time, Automatically round partial minutes down
+			cardio.setMinutes((int) Math.floor(infoGiven.get(1))); // Set minutes walked, Automatically round partial minutes down
+			
+			
+			//Find date and time
+			cardio.setTime(this.getTimeString()); //set time field
 
 		} else {
 			
 			strength = (Strength) workout; //Create strength object
 			strength.setReps((int) Math.floor(infoGiven.get(0))); // Set reps, No half-repping
+			
+			//TODO Set time
+			strength.setTime(getTimeString());
 		}
 
 		//Add to appropriate arraylist in workouts
@@ -137,6 +148,24 @@ public class TrackerIO{
 
 		return 0;
 	}
+	
+	
+	/**
+	 * Gets string encoding time and date in Navy Date-Time-Group
+	 * @return
+	 */
+	public String getTimeString(){
+		
+		DateFormat formatObj = new SimpleDateFormat("ddHHmmMMMYY"); //Format for date
+		formatObj.setTimeZone(TimeZone.getTimeZone("GMT"));
+		Date dateObj = new Date(); //date
+		String time = formatObj.format(dateObj); //get string of date
+		
+		//Insert time zone letter into string
+		time = time.substring(0, 6) + "Z" + time.substring(6);
+		
+		return time;
+	}
 
 	/**
 	 * 
@@ -148,12 +177,13 @@ public class TrackerIO{
 		BufferedReader reader = null; //for reading
 		Workouts workouts; //object in which to put final output
 		String line; //individual line read from file
-		String fromFile = null; //String from file
+		String fromFile = ""; //String from file
 
 		try {
 			reader = new BufferedReader(new FileReader(filename)); //create reader
 		} catch (Exception exceptionObject) {
 			System.err.println("The file was not found!");
+			
 		}
 
 		try {
@@ -169,7 +199,7 @@ public class TrackerIO{
 		}
 
 		//Convert from json to workouts
-		workouts = gson.fromJson(fromFile, Response.class);
+		workouts = gson.<Workouts>fromJson(fromFile, Workouts.class);
 
 		return workouts;
 	}
@@ -177,7 +207,7 @@ public class TrackerIO{
 	public String serialize(Workouts workouts){
 
 		//Create gson object
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().create();
 
 		//convert to Json
 		String output = gson.toJson(workouts);
