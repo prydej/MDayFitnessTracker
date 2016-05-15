@@ -40,10 +40,19 @@ import com.google.gson.*;
  * ________________________________________________________________________
  * ************************************************************************
  */
-public class TrackerIO{
+public class TrackerIO {
 
 	private String filename = "Workouts.json";
 
+	
+	/**
+	 * Writes information given about a set to json file
+	 * @param infoGiven: ArrayList of information given by user.
+	 * <p>element 0: number of miles/reps</p>
+	 * <p>element 1: (optional) time walked</p>
+	 * @param workout: workout object selected by user (walking, pushups, etc.)
+	 * @return exit status
+	 */
 	public int writeToFile(ArrayList<Double> infoGiven, Workout workout){
 
 		//create workouts object
@@ -152,7 +161,7 @@ public class TrackerIO{
 	
 	/**
 	 * Gets string encoding time and date in Navy Date-Time-Group
-	 * @return
+	 * @return time: time in Navy Date-Time-Group
 	 */
 	public String getTimeString(){
 		
@@ -168,8 +177,8 @@ public class TrackerIO{
 	}
 
 	/**
-	 * 
-	 * @return 
+	 * Reads information in Workouts.json file into Workouts object
+	 * @return workouts: object with information read from file
 	 */
 	public Workouts readFromFile(){
 
@@ -204,6 +213,11 @@ public class TrackerIO{
 		return workouts;
 	}
 
+	/**
+	 * Serializes a workouts object into a json string
+	 * @param workouts: input workouts object
+	 * @return output: output json string
+	 */
 	public String serialize(Workouts workouts){
 
 		//Create gson object

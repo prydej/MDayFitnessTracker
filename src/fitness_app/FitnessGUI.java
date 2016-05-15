@@ -3,14 +3,12 @@ package fitness_app;
 import javafx.util.Duration;
 import java.util.ArrayList;
 //import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -243,7 +241,8 @@ public class FitnessGUI extends Application {
 
 		//Create ArrayList of information given
 		ArrayList<Double> infoGiven = new ArrayList<Double>();
-
+		
+		//TODO Modularize this, to only pass one argument with workout object to writeToFile(). Maybe use generics?
 		infoGiven.add(Math.floor(Double.parseDouble(number.getText())*100)/100); //Add value in number as double rounded to 2 decimal places
 
 		if (walking.isSelected()){ //only add time if it was asked

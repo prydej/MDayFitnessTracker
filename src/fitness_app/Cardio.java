@@ -6,14 +6,14 @@ package fitness_app;
  */
 public class Cardio extends Workout{
 	
-	private double distance;
+	private double miles;
 	private int minutes;
 	
-	public double getDistance() {
-		return distance;
+	public double getMiles() {
+		return miles;
 	}
-	public void setDistance(double distance) {
-		this.distance = distance;
+	public void setMiles(double distance) {
+		this.miles = distance;
 	}
 	public int getMinutes() {
 		return minutes;

@@ -18,8 +18,4 @@ public class Workout {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	
-	/**
-	 * Adds to workout to appropriate ArrayList in Workouts
-	 */
 }

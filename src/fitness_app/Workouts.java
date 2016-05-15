@@ -12,11 +12,11 @@ import java.util.List;
  */
 public class Workouts {
 
-	List<PushUps> pushupSessions;
-	List<SitUps> situpSessions;
-	List<Burpees> burpeeSessions;
-	List<Squats> squatSessions;
-	List<Walking> walks;
+	ArrayList<PushUps> pushupSessions;
+	ArrayList<SitUps> situpSessions;
+	ArrayList<Burpees> burpeeSessions;
+	ArrayList<Squats> squatSessions;
+	ArrayList<Walking> walks;
 	
 	public Workouts(){
 		pushupSessions = new ArrayList<PushUps>();
