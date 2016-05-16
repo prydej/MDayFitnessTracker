@@ -12,50 +12,51 @@ import java.util.List;
  */
 public class Workouts {
 
-	ArrayList<PushUps> pushupSessions;
-	ArrayList<SitUps> situpSessions;
-	ArrayList<Burpees> burpeeSessions;
-	ArrayList<Squats> squatSessions;
+	ArrayList<PushUps> pushupSets;
+	ArrayList<SitUps> situpSets;
+	ArrayList<Burpees> burpeeSets;
+	ArrayList<Squats> squatSets;
 	ArrayList<Walking> walks;
 	
 	public Workouts(){
-		pushupSessions = new ArrayList<PushUps>();
-		situpSessions = new ArrayList<SitUps>();
-		burpeeSessions = new ArrayList<Burpees>();
-		squatSessions = new ArrayList<Squats>();
+		pushupSets = new ArrayList<PushUps>();
+		situpSets = new ArrayList<SitUps>();
+		burpeeSets = new ArrayList<Burpees>();
+		squatSets = new ArrayList<Squats>();
 		walks = new ArrayList<Walking>();
 	}
-
+	
+	//Getters and Setters
 	public List<PushUps> getPushupSessions() {
-		return pushupSessions;
+		return pushupSets;
 	}
 
 	public void setPushupSessions(ArrayList<PushUps> pushupSessions) {
-		this.pushupSessions = pushupSessions;
+		this.pushupSets = pushupSessions;
 	}
 
 	public List<SitUps> getSitupSessions() {
-		return situpSessions;
+		return situpSets;
 	}
 
 	public void setSitupSessions(ArrayList<SitUps> situpSessions) {
-		this.situpSessions = situpSessions;
+		this.situpSets = situpSessions;
 	}
 
 	public List<Burpees> getBurpeeSessions() {
-		return burpeeSessions;
+		return burpeeSets;
 	}
 
 	public void setBurpeeSessions(ArrayList<Burpees> burpeeSessions) {
-		this.burpeeSessions = burpeeSessions;
+		this.burpeeSets = burpeeSessions;
 	}
 
 	public List<Squats> getSquatSessions() {
-		return squatSessions;
+		return squatSets;
 	}
 
 	public void setSquatSessions(ArrayList<Squats> squatSessions) {
-		this.squatSessions = squatSessions;
+		this.squatSets = squatSessions;
 	}
 
 	public List<Walking> getWalks() {

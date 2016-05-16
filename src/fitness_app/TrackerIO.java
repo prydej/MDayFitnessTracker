@@ -83,7 +83,7 @@ public class TrackerIO {
 		if (workout instanceof Cardio){ //a walking object has different fields than a strength object
 
 			cardio = (Cardio) workout; //Create cardio object
-			cardio.setDistance(infoGiven.get(0)); //Set distance
+			cardio.setMiles(infoGiven.get(0)); //Set distance
 			cardio.setMinutes((int) Math.floor(infoGiven.get(1))); // Set minutes walked, Automatically round partial minutes down
 			
 			
@@ -221,7 +221,7 @@ public class TrackerIO {
 	public String serialize(Workouts workouts){
 
 		//Create gson object
-		Gson gson = new GsonBuilder().create();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 		//convert to Json
 		String output = gson.toJson(workouts);
