@@ -30,6 +30,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
+import java.text.DecimalFormat;
 
 /**
  * @author Julian Pryde
@@ -101,6 +102,22 @@ public class FitnessGUI extends Application {
 		setSaved = new Text("Set Saved!");
 
 		//set statistics
+		totalPushupsText = new Text(); 
+		totalSitupsText = new Text();
+		totalSquatsText = new Text(); 
+		totalBurpeesText = new Text();
+		totalWalkTimeText = new Text();
+		totalMilesWalkedText = new Text();
+		avgWalkTimeText = new Text();
+		avgWalkingSpeedText = new Text();
+		avgPushupsText = new Text();
+		avgSitupsText = new Text();
+		avgBurpeesText = new Text();
+		avgSquatsText = new Text();
+		avgMilesWalkedText = new Text();
+		strengthHeader = new Text();
+		cardioHeader = new Text();
+		
 		this.setStatistics();
 
 		strengthHeader = new Text("Strength");
@@ -296,7 +313,7 @@ public class FitnessGUI extends Application {
 		pushUps.setOnAction(e -> setRegularText());
 		sitUps.setOnAction(e -> setRegularText());
 		burpees.setOnAction(e -> setRegularText());
-		//statisticsTab.setOnSelectionChanged(e -> showStatistics());
+		statisticsTab.setOnSelectionChanged(e -> setStatistics());
 
 		// --Handle enter button
 		enter.setOnAction(e -> startTrackerIO());
@@ -423,20 +440,20 @@ public class FitnessGUI extends Application {
 		statsCalc.findStats(this);
 
 		//Instantiate text in Retrieve Data tab
-		totalPushupsText = new Text("Total Pushups:\t\t\t\t" + Integer.toString(totalPushups)); 
-		totalSitupsText = new Text("Total Situps:\t\t\t\t" + Integer.toString(totalSitups)); 
-		totalSquatsText = new Text("Total Squats:\t\t\t\t" + Integer.toString(totalSquats));
-		totalBurpeesText = new Text("Total Burpees:\t\t\t\t" + Integer.toString(totalBurpees));
-		totalWalkTimeText  = new Text("Total Walk Time:\t\t\t" + Integer.toString(totalWalkTime) + "minutes");
+		totalPushupsText.setText("Total Pushups:\t\t\t\t" + Integer.toString(totalPushups)); 
+		totalSitupsText.setText("Total Situps:\t\t\t\t" + Integer.toString(totalSitups)); 
+		totalSquatsText.setText("Total Squats:\t\t\t\t" + Integer.toString(totalSquats));
+		totalBurpeesText.setText("Total Burpees:\t\t\t\t" + Integer.toString(totalBurpees));
+		totalWalkTimeText.setText("Total Walk Time:\t\t\t" + Integer.toString(totalWalkTime) + " minutes");
 
-		totalMilesWalkedText = new Text("Total Miles Walked:\t\t\t" + Double.toString(totalMilesWalked) + "miles");
-		avgWalkTimeText = new Text("Average Time Per Walk:\t\t" + Double.toString(avgWalkTime) + "minutes");
-		avgWalkingSpeedText = new Text("Average Walking Speed:\t\t" + Double.toString(avgWalkingSpeed) + "miles per hour");
-		avgPushupsText = new Text("Average Pushups Per Set:\t" + Double.toString(avgPushups)); 
-		avgSitupsText = new Text("Average Situps Per Set:\t\t" + Double.toString(avgSitups)); 
-		avgBurpeesText = new Text("Average Burpees Per Set:\t" + Double.toString(avgBurpees)); 
-		avgSquatsText = new Text("Average Squats Per Set:\t\t" + Double.toString(avgSquats));
-		avgMilesWalkedText = new Text("Average Miles Per Walk:\t\t" + Double.toString(avgMilesWalked));
+		totalMilesWalkedText.setText("Total Miles Walked:\t\t\t" + new DecimalFormat("#.###").format(totalMilesWalked) + " miles");
+		avgWalkTimeText.setText("Average Time Per Walk:\t\t" + new DecimalFormat("#.###").format(avgWalkTime) + " minutes");
+		avgWalkingSpeedText.setText("Average Walking Speed:\t\t" + new DecimalFormat("#.###").format(avgWalkingSpeed) + " miles per hour");
+		avgPushupsText.setText("Average Pushups Per Set:\t" + new DecimalFormat("#.###").format(avgPushups)); 
+		avgSitupsText.setText("Average Situps Per Set:\t\t" + new DecimalFormat("#.###").format(avgSitups)); 
+		avgBurpeesText.setText("Average Burpees Per Set:\t" + new DecimalFormat("#.###").format(avgBurpees)); 
+		avgSquatsText.setText("Average Squats Per Set:\t\t" + new DecimalFormat("#.###").format(avgSquats));
+		avgMilesWalkedText.setText("Average Miles Per Walk:\t\t" + new DecimalFormat("#.###").format(avgMilesWalked));
 
 	}
 

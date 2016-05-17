@@ -3,6 +3,7 @@
  */
 package fitness_app;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -65,7 +66,11 @@ public class StatisticsCalc {
 		TrackerIO io = new TrackerIO();
 
 		//Read from file
-		workouts = io.readFromFile();
+		try {
+			workouts = io.readFromFile();
+		} catch (IOException e) {
+			return;
+		}
 		
 		//Define reps lambda
 		StrengthStatisticFinder getReps = (list, element) -> {

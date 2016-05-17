@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="fitness_app.Strength" project="MDayFitness" 
     file="/MDayFitness/src/fitness_app/Strength.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="111" y="413"/>    
+    <position height="-1" width="-1" x="161" y="441"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,59 +75,124 @@
   </class>  
   <class id="9" language="java" name="fitness_app.FitnessGUI" project="MDayFitness" 
     file="/MDayFitness/src/fitness_app/FitnessGUI.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1023" y="313"/>    
+    <position height="1555" width="189" x="931" y="-215"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="fitness_app.Cardio" project="MDayFitness" 
+    file="/MDayFitness/src/fitness_app/Cardio.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="345" y="146"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <generalization id="10">    
+  <interface id="11" language="java" name="fitness_app.StatisticsCalc.CardioStatisticFinder" project="MDayFitness" 
+    file="/MDayFitness/src/fitness_app/StatisticsCalc.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="692" y="788"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <class id="12" language="java" name="fitness_app.StatisticsCalc" project="MDayFitness" 
+    file="/MDayFitness/src/fitness_app/StatisticsCalc.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="335" y="681"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <interface id="13" language="java" name="fitness_app.StatisticsCalc.StrengthStatisticFinder" project="MDayFitness" 
+    file="/MDayFitness/src/fitness_app/StatisticsCalc.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="186" y="872"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <interface id="14" language="java" name="fitness_app.StatisticsCalc.WorkoutStatisticsFinder" project="MDayFitness" 
+    file="/MDayFitness/src/fitness_app/StatisticsCalc.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="446" y="883"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </interface>  
+  <generalization id="15">    
     <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <generalization id="11">    
+  <generalization id="16">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <nesting id="17">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="13"/>  
+  </nesting>  
+  <generalization id="18">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="10"/>  
+  </generalization>  
+  <generalization id="19">    
     <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="7"/>  
   </generalization>  
-  <association id="12">    
+  <association id="20">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="13" name="pushupSets">        
+      <attribute id="21" name="pushupSets">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="14" minimum="0" maximum="2147483647">        
+      <multiplicity id="22" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="15">    
+  <association id="23">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="16" name="walks">        
+      <attribute id="24" name="walks">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="17" minimum="0" maximum="2147483647">        
+      <multiplicity id="25" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="18">    
+  <nesting id="26">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="14"/>  
+  </nesting>  
+  <generalization id="27">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <generalization id="19">    
+  <generalization id="28">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <association id="20">    
+  <nesting id="29">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="11"/>  
+  </nesting>  
+  <association id="30">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="21" name="situpSets">        
+      <attribute id="31" name="situpSets">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="22" minimum="0" maximum="2147483647">        
+      <multiplicity id="32" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    

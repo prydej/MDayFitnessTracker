@@ -72,7 +72,11 @@ public class TrackerIO {
 		if (fileExists && !fileIsDir){
 
 			//Read from file
-			workouts = this.readFromFile();
+			try {
+				workouts = this.readFromFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		//--
@@ -180,7 +184,7 @@ public class TrackerIO {
 	 * Reads information in Workouts.json file into Workouts object
 	 * @return workouts: object with information read from file
 	 */
-	public Workouts readFromFile(){
+	public Workouts readFromFile() throws IOException{
 
 		Gson gson = new Gson(); //for parsing
 		BufferedReader reader = null; //for reading
@@ -190,8 +194,8 @@ public class TrackerIO {
 
 		try {
 			reader = new BufferedReader(new FileReader(filename)); //create reader
-		} catch (Exception exceptionObject) {
-			System.err.println("The file was not found!");
+		} catch (IOException e) {
+			throw new IOException();
 			
 		}
 
