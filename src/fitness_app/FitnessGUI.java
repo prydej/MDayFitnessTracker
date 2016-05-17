@@ -13,6 +13,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.Node;
@@ -25,6 +26,7 @@ import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
@@ -34,7 +36,7 @@ import javafx.scene.paint.Color;
  *
  */
 public class FitnessGUI extends Application {
-	
+
 	//Enter data tab
 	private Text pickExercise, enterReps, enterTime, setSaved;
 	private RadioButton squats, pushUps, burpees, sitUps, walking;
@@ -45,7 +47,7 @@ public class FitnessGUI extends Application {
 	private ToggleGroup exerciseGroup;
 	private int maxWOButtonSize = 90;
 	private int rowHeight = 25;
-	
+
 	//Statistics Tab
 	private Text
 	totalPushupsText, 
@@ -63,14 +65,14 @@ public class FitnessGUI extends Application {
 	avgMilesWalkedText,
 	strengthHeader,
 	cardioHeader;
-	
+
 	private int 
 	totalPushups, 
 	totalSitups, 
 	totalSquats, 
 	totalBurpees,
 	totalWalkTime;
-	
+
 	private double 
 	totalMilesWalked,
 	avgWalkTime, 
@@ -97,23 +99,15 @@ public class FitnessGUI extends Application {
 		enterReps = new Text("Number of (whole) Reps:");
 		enterTime = new Text("Minutes walked:");
 		setSaved = new Text("Set Saved!");
-		
-		// --Retrieve Data tab
-		totalPushupsText = new Text("Total Pushups:\t\t" + Integer.toString(totalPushups)); 
-		totalSitupsText = new Text("Total Situps:\t\t" + Integer.toString(totalSitups)); 
-		totalSquatsText = new Text("Total Squats:\t\t" + Integer.toString(totalSquats));
-		totalBurpeesText = new Text("Total Burpees:\t\t" + Integer.toString(totalBurpees));
-		totalWalkTimeText  = new Text("Total Walk Time:\t\t" + Integer.toString(totalWalkTime) + "minutes");
-		
-		totalMilesWalkedText = new Text("Total Miles Walked:\t" + Double.toString(totalMilesWalked) + "miles");
-		avgWalkTimeText = new Text("Average Time Per Walk:\t" + Double.toString(avgWalkTime) + "minutes");
-		avgWalkingSpeedText = new Text("Average Walking Speed:\t" + Double.toString(avgWalkingSpeed) + "miles per hour");
-		avgPushupsText = new Text("Average Pushups Per Set:\t" + Double.toString(avgPushups)); 
-		avgSitupsText = new Text("Average Situps Per Set:\t" + Double.toString(avgSitups)); 
-		avgBurpeesText = new Text("Average Burpees Per Set:\t" + Double.toString(avgBurpees)); 
-		avgSquatsText = new Text("Average Squats Per Set:\t" + Double.toString(avgSquats));
-		avgMilesWalkedText = new Text("Average Miles Per Walk:\t" + Double.toString(avgMilesWalked));
 
+		//set statistics
+		this.setStatistics();
+
+		strengthHeader = new Text("Strength");
+		strengthHeader.setFont(new Font(20));
+
+		cardioHeader = new Text("Cardio");
+		cardioHeader.setFont(new Font(20));
 
 		//Instantiate exercise toggle goup
 		exerciseGroup = new ToggleGroup();
@@ -159,7 +153,7 @@ public class FitnessGUI extends Application {
 		GridPane.setConstraints(enterTime, 2, 4);
 		GridPane.setConstraints(time, 2, 5);
 		GridPane.setConstraints(setSaved, 2, 3);
-		
+
 		RowConstraints row0 = new RowConstraints(10);
 		RowConstraints row1 = new RowConstraints(rowHeight);
 		RowConstraints row2 = new RowConstraints(rowHeight);
@@ -169,23 +163,65 @@ public class FitnessGUI extends Application {
 		RowConstraints row6 = new RowConstraints(rowHeight);
 
 		enterDataPromptsPane.getRowConstraints().addAll(row0, row1, row2, row3, row4, row5, row6);
-		
+
 		//Set initial grid constraints for statistics tab
-		GridPane.setConstraints(strengthHeader, 1, 0);
-		GridPane.setConstraints(totalPushupsText, 1, 1);
-		GridPane.setConstraints(avgPushupsText, 1, 2);
-		GridPane.setConstraints(totalSitupsText, 1, 3);
-		GridPane.setConstraints(avgSitupsText, 1, 4);
-		GridPane.setConstraints(totalSquatsText, 1, 5);
-		GridPane.setConstraints(avgSquatsText, 1, 6);
-		GridPane.setConstraints(totalBurpeesText, 1, 7);
-		GridPane.setConstraints(avgBurpeesText, 1, 8);
-		GridPane.setConstraints(cardioHeader, 1, 10);
-		GridPane.setConstraints(totalMilesWalkedText, 1, 11);
-		GridPane.setConstraints(avgMilesWalkedText, 1, 12);
-		GridPane.setConstraints(totalWalkTimeText, 1, 13);
-		GridPane.setConstraints(avgWalkTimeText, 1, 14);
-		GridPane.setConstraints(avgWalkingSpeedText, 1, 15);
+		GridPane.setConstraints(strengthHeader, 1, 1);
+		GridPane.setConstraints(totalPushupsText, 1, 2);
+		GridPane.setConstraints(avgPushupsText, 1, 3);
+		GridPane.setConstraints(totalSitupsText, 1, 4);
+		GridPane.setConstraints(avgSitupsText, 1, 5);
+		GridPane.setConstraints(totalSquatsText, 1, 6);
+		GridPane.setConstraints(avgSquatsText, 1, 7);
+		GridPane.setConstraints(totalBurpeesText, 1, 8);
+		GridPane.setConstraints(avgBurpeesText, 1, 9);
+		GridPane.setConstraints(cardioHeader, 1, 11);
+		GridPane.setConstraints(totalMilesWalkedText, 1, 12);
+		GridPane.setConstraints(avgMilesWalkedText, 1, 13);
+		GridPane.setConstraints(totalWalkTimeText, 1, 14);
+		GridPane.setConstraints(avgWalkTimeText, 1, 15);
+		GridPane.setConstraints(avgWalkingSpeedText, 1, 16);
+
+		RowConstraints statsRow0 = new RowConstraints(10);
+		RowConstraints statsRow1 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow2 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow3 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow4 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow5 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow6 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow7 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow8 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow9 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow10 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow11 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow12 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow13 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow14 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow15 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow16 = new RowConstraints(5, rowHeight, 30);
+
+		statisticsPane.getRowConstraints().addAll(
+				statsRow0,
+				statsRow1,
+				statsRow2,
+				statsRow3,
+				statsRow4,
+				statsRow5,
+				statsRow6,
+				statsRow7,
+				statsRow8,
+				statsRow9,
+				statsRow10,
+				statsRow11,
+				statsRow12,
+				statsRow13,
+				statsRow14,
+				statsRow15,
+				statsRow16
+				);
+		
+		ColumnConstraints statsColumn0 = new ColumnConstraints(10);
+		statisticsPane.getColumnConstraints().addAll(statsColumn0);
+
 
 		//Set Button sizes
 		number.setPrefWidth(maxWOButtonSize);
@@ -196,9 +232,28 @@ public class FitnessGUI extends Application {
 		//Set VGap between grid squares
 		enterDataPromptsPane.setHgap(10);
 
-		//Add things to pane
+		//Add things to enter data pane
 		enterDataPromptsPane.getChildren().addAll(pickExercise, enterReps, enterTime, squats, pushUps, burpees, sitUps, 
 				walking, number, time, enter, setSaved);
+
+		//Add things to statistics pane
+		statisticsPane.getChildren().addAll(
+				totalPushupsText, 
+				totalSitupsText, 
+				totalSquatsText, 
+				totalBurpeesText,
+				totalWalkTimeText,
+				totalMilesWalkedText,
+				avgWalkTimeText, 
+				avgWalkingSpeedText,
+				avgPushupsText, 
+				avgSitupsText, 
+				avgBurpeesText, 
+				avgSquatsText,
+				avgMilesWalkedText,
+				strengthHeader,
+				cardioHeader
+				);
 
 		//Set time to invisible initially
 		time.setVisible(false);
@@ -212,6 +267,8 @@ public class FitnessGUI extends Application {
 		enterData.setBottom(enter);
 		BorderPane.setAlignment(enter, Pos.BOTTOM_RIGHT);
 		BorderPane.setMargin(enter, new Insets(0, 20, 20, 0));
+		
+		//Set statistics tab pane vgap and hgap
 
 		//Instantiate tabs
 		enterDataTab = new Tab();
@@ -223,7 +280,7 @@ public class FitnessGUI extends Application {
 
 		statisticsTab.setText("Statistics");
 		statisticsTab.setContent(statisticsPane);
-		
+
 		tabPane.getTabs().addAll(enterDataTab, statisticsTab);
 	}
 
@@ -239,14 +296,14 @@ public class FitnessGUI extends Application {
 		pushUps.setOnAction(e -> setRegularText());
 		sitUps.setOnAction(e -> setRegularText());
 		burpees.setOnAction(e -> setRegularText());
-		statisticsTab.setOnSelectionChanged(e -> showStatistics());
+		//statisticsTab.setOnSelectionChanged(e -> showStatistics());
 
 		// --Handle enter button
 		enter.setOnAction(e -> startTrackerIO());
-		
+
 		//Bring it all together
 		// --Create scene
-		Scene scene = new Scene(tabPane, 400, 250);
+		Scene scene = new Scene(tabPane, 400, 450);
 
 		// --Set Stage
 		stage.setScene(scene);
@@ -264,7 +321,7 @@ public class FitnessGUI extends Application {
 	public void setWalkingText(){
 		//Change Reps text
 		enterReps.setText("Number of miles walked:");
-		
+
 		//Move setSaved text below time field
 		GridPane.setConstraints(setSaved, 2, 6);
 
@@ -283,7 +340,7 @@ public class FitnessGUI extends Application {
 
 		//clear number of reps field
 		number.clear();
-		
+
 		//Move setSaved text back to original position below number box
 		GridPane.setConstraints(setSaved, 2, 3);
 
@@ -312,22 +369,25 @@ public class FitnessGUI extends Application {
 
 		//Create ArrayList of information given
 		ArrayList<Double> infoGiven = new ArrayList<Double>();
-		
+
 		//TODO Modularize this, to only pass one argument with workout object to writeToFile(). Maybe use generics?
 		infoGiven.add(Math.floor(Double.parseDouble(number.getText())*100)/100); //Add value in number as double rounded to 2 decimal places
 
 		if (walking.isSelected()){ //only add time if it was asked
 			infoGiven.add(Math.floor(Double.parseDouble(time.getText())*100)/100);
 		}
+		
+		//setStatistics
+		this.setStatistics();
 
 		//Call TrackerIO.writeToFile()
 		io.writeToFile(infoGiven, selected);
-		
+
 		//show setSaved for 5 seconds
 		Timeline flash = createFlash(setSaved);
 		flash.play();
 	}
-	
+
 	//Create flashing effect for "set saved" text
 	public Timeline createFlash(Node node){
 		Timeline flash = new Timeline( //create timeline
@@ -337,36 +397,49 @@ public class FitnessGUI extends Application {
 								node.visibleProperty(), //property dealt with
 								true, //end state
 								Interpolator.DISCRETE //transition
-						)
-				),
+								)
+						),
 				new KeyFrame(
 						Duration.seconds(2),
 						new KeyValue(
 								node.visibleProperty(), 
 								false, 
 								Interpolator.DISCRETE
+								)
 						)
-				)
-		);
-		
+				);
+
 		return flash;
-		
+
 	}
-	
+
 	//Find and display statistics calculations
-	public void showStatistics(){
-		
-		//Create StatisticsClalc object
+	public void setStatistics(){
+
+		// Create StatisticsClalc object
 		StatisticsCalc statsCalc = new StatisticsCalc();
-		
-		//Call findStats
+
+		// Call findStats
 		statsCalc.findStats(this);
-		
-		//Set text to visible in retrieve data pane
-		
-		
+
+		//Instantiate text in Retrieve Data tab
+		totalPushupsText = new Text("Total Pushups:\t\t\t\t" + Integer.toString(totalPushups)); 
+		totalSitupsText = new Text("Total Situps:\t\t\t\t" + Integer.toString(totalSitups)); 
+		totalSquatsText = new Text("Total Squats:\t\t\t\t" + Integer.toString(totalSquats));
+		totalBurpeesText = new Text("Total Burpees:\t\t\t\t" + Integer.toString(totalBurpees));
+		totalWalkTimeText  = new Text("Total Walk Time:\t\t\t" + Integer.toString(totalWalkTime) + "minutes");
+
+		totalMilesWalkedText = new Text("Total Miles Walked:\t\t\t" + Double.toString(totalMilesWalked) + "miles");
+		avgWalkTimeText = new Text("Average Time Per Walk:\t\t" + Double.toString(avgWalkTime) + "minutes");
+		avgWalkingSpeedText = new Text("Average Walking Speed:\t\t" + Double.toString(avgWalkingSpeed) + "miles per hour");
+		avgPushupsText = new Text("Average Pushups Per Set:\t" + Double.toString(avgPushups)); 
+		avgSitupsText = new Text("Average Situps Per Set:\t\t" + Double.toString(avgSitups)); 
+		avgBurpeesText = new Text("Average Burpees Per Set:\t" + Double.toString(avgBurpees)); 
+		avgSquatsText = new Text("Average Squats Per Set:\t\t" + Double.toString(avgSquats));
+		avgMilesWalkedText = new Text("Average Miles Per Walk:\t\t" + Double.toString(avgMilesWalked));
+
 	}
-	
+
 	//--------------------Setters and Getters---------------------
 	public int getTotalPushups() {
 		return totalPushups;
