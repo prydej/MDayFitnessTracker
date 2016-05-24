@@ -7,6 +7,7 @@ package fitness_app;
 public class Strength extends Workout{
 	
 	private int reps;
+	private double minutes;
 	
 	public int getReps() {
 		return reps;

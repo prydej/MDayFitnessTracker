@@ -95,9 +95,9 @@ public class StatisticsCalc {
 		//For each strength workout, find total reps
 		// --Find stat
 		int totalBurpees = (int) this.addAllInArrayList(getStrengthStats(workouts.burpeeSets, getReps));
-		int totalSquats = (int) this.addAllInArrayList(getStrengthStats(workouts.pushupSets, getReps));
-		int totalPushups = (int) this.addAllInArrayList(getStrengthStats(workouts.situpSets, getReps));
-		int totalSitups = (int) this.addAllInArrayList(getStrengthStats(workouts.squatSets, getReps));
+		int totalPushups = (int) this.addAllInArrayList(getStrengthStats(workouts.pushupSets, getReps));
+		int totalSitups = (int) this.addAllInArrayList(getStrengthStats(workouts.situpSets, getReps));
+		int totalSquats = (int) this.addAllInArrayList(getStrengthStats(workouts.squatSets, getReps));
 		
 		// --Set stat
 		gui.setTotalBurpees(totalBurpees);

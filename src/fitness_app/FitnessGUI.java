@@ -40,7 +40,7 @@ public class FitnessGUI extends Application {
 
 	//Enter data tab
 	private Text pickExercise, enterReps, enterTime, setSaved;
-	private RadioButton squats, pushUps, burpees, sitUps, walking;
+	private RadioButton squats, pushUps, burpees, sitUps, walking, plank;
 	private Button enter;
 	private TextField number, time;
 	private GridPane enterDataPromptsPane, statisticsPane;
@@ -65,9 +65,11 @@ public class FitnessGUI extends Application {
 	avgSquatsText,
 	avgMilesWalkedText,
 	strengthHeader,
-	cardioHeader;
+	cardioHeader,
+	totalPlankMinsText,
+	avgPlankMinsText;
 
-	private int 
+	private int
 	totalPushups, 
 	totalSitups, 
 	totalSquats, 
@@ -82,7 +84,9 @@ public class FitnessGUI extends Application {
 	avgSitups, 
 	avgBurpees, 
 	avgSquats,
-	avgMilesWalked;
+	avgMilesWalked,
+	totalPlankMins,
+	avgPlankMins;
 
 	TabPane tabPane;
 	Tab enterDataTab, statisticsTab;
@@ -108,6 +112,8 @@ public class FitnessGUI extends Application {
 		totalBurpeesText = new Text();
 		totalWalkTimeText = new Text();
 		totalMilesWalkedText = new Text();
+		totalPlankMinsText = new Text();
+		avgPlankMinsText = new Text();
 		avgWalkTimeText = new Text();
 		avgWalkingSpeedText = new Text();
 		avgPushupsText = new Text();
@@ -145,6 +151,9 @@ public class FitnessGUI extends Application {
 
 		walking = new RadioButton("Walking");
 		walking.setToggleGroup(exerciseGroup);
+		
+		plank = new RadioButton("Planks");
+		plank.setToggleGroup(exerciseGroup);
 
 		enter = new Button("Enter");
 		GridPane.setHalignment(enter, HPos.RIGHT);
@@ -165,6 +174,7 @@ public class FitnessGUI extends Application {
 		GridPane.setConstraints(burpees, 1, 4);
 		GridPane.setConstraints(sitUps, 1, 5);
 		GridPane.setConstraints(walking, 1, 6);
+		GridPane.setConstraints(plank, 1, 7);
 		GridPane.setConstraints(number, 2, 2);
 		GridPane.setConstraints(enter, 3, 7);
 		GridPane.setConstraints(enterTime, 2, 4);
@@ -191,12 +201,14 @@ public class FitnessGUI extends Application {
 		GridPane.setConstraints(avgSquatsText, 1, 7);
 		GridPane.setConstraints(totalBurpeesText, 1, 8);
 		GridPane.setConstraints(avgBurpeesText, 1, 9);
-		GridPane.setConstraints(cardioHeader, 1, 11);
-		GridPane.setConstraints(totalMilesWalkedText, 1, 12);
-		GridPane.setConstraints(avgMilesWalkedText, 1, 13);
-		GridPane.setConstraints(totalWalkTimeText, 1, 14);
-		GridPane.setConstraints(avgWalkTimeText, 1, 15);
-		GridPane.setConstraints(avgWalkingSpeedText, 1, 16);
+		GridPane.setConstraints(totalPlankMinsText, 1, 10);
+		GridPane.setConstraints(avgPlankMinsText, 1, 11);
+		GridPane.setConstraints(cardioHeader, 1, 13);
+		GridPane.setConstraints(totalMilesWalkedText, 1, 14);
+		GridPane.setConstraints(avgMilesWalkedText, 1, 15);
+		GridPane.setConstraints(totalWalkTimeText, 1, 16);
+		GridPane.setConstraints(avgWalkTimeText, 1, 17);
+		GridPane.setConstraints(avgWalkingSpeedText, 1, 18);
 
 		RowConstraints statsRow0 = new RowConstraints(10);
 		RowConstraints statsRow1 = new RowConstraints(5, rowHeight, 30);
@@ -215,6 +227,8 @@ public class FitnessGUI extends Application {
 		RowConstraints statsRow14 = new RowConstraints(5, rowHeight, 30);
 		RowConstraints statsRow15 = new RowConstraints(5, rowHeight, 30);
 		RowConstraints statsRow16 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow17 = new RowConstraints(5, rowHeight, 30);
+		RowConstraints statsRow18 = new RowConstraints(5, rowHeight, 30);
 
 		statisticsPane.getRowConstraints().addAll(
 				statsRow0,
@@ -233,7 +247,9 @@ public class FitnessGUI extends Application {
 				statsRow13,
 				statsRow14,
 				statsRow15,
-				statsRow16
+				statsRow16,
+				statsRow17,
+				statsRow18
 				);
 		
 		ColumnConstraints statsColumn0 = new ColumnConstraints(10);
@@ -250,8 +266,20 @@ public class FitnessGUI extends Application {
 		enterDataPromptsPane.setHgap(10);
 
 		//Add things to enter data pane
-		enterDataPromptsPane.getChildren().addAll(pickExercise, enterReps, enterTime, squats, pushUps, burpees, sitUps, 
-				walking, number, time, enter, setSaved);
+		enterDataPromptsPane.getChildren().addAll(
+				pickExercise, 
+				enterReps, 
+				enterTime, 
+				squats, 
+				pushUps, 
+				burpees, 
+				sitUps, 
+				plank,
+				walking, 
+				number, 
+				time, 
+				enter, 
+				setSaved);
 
 		//Add things to statistics pane
 		statisticsPane.getChildren().addAll(
@@ -261,6 +289,8 @@ public class FitnessGUI extends Application {
 				totalBurpeesText,
 				totalWalkTimeText,
 				totalMilesWalkedText,
+				totalPlankMinsText,
+				avgPlankMinsText,
 				avgWalkTimeText, 
 				avgWalkingSpeedText,
 				avgPushupsText, 
@@ -313,6 +343,8 @@ public class FitnessGUI extends Application {
 		pushUps.setOnAction(e -> setRegularText());
 		sitUps.setOnAction(e -> setRegularText());
 		burpees.setOnAction(e -> setRegularText());
+		plank.setOnAction(e -> setRegularText()); 
+		plank.setOnAction(e -> setPlankText()); //If planks are selected, set regular text, then set box title to minutes of planks
 		statisticsTab.setOnSelectionChanged(e -> setStatistics());
 
 		// --Handle enter button
@@ -349,6 +381,12 @@ public class FitnessGUI extends Application {
 		time.setVisible(true);
 		enterTime.setVisible(true);
 
+	}
+	
+	//Change reps box text to minutes instead of reps
+	public void setPlankText(){
+		//Change reps text
+		enterReps.setText("Number of minutes planked");
 	}
 
 	public void setRegularText(){
@@ -445,6 +483,7 @@ public class FitnessGUI extends Application {
 		totalSquatsText.setText("Total Squats:\t\t\t\t" + Integer.toString(totalSquats));
 		totalBurpeesText.setText("Total Burpees:\t\t\t\t" + Integer.toString(totalBurpees));
 		totalWalkTimeText.setText("Total Walk Time:\t\t\t" + Integer.toString(totalWalkTime) + " minutes");
+		
 
 		totalMilesWalkedText.setText("Total Miles Walked:\t\t\t" + new DecimalFormat("#.###").format(totalMilesWalked) + " miles");
 		avgWalkTimeText.setText("Average Time Per Walk:\t\t" + new DecimalFormat("#.###").format(avgWalkTime) + " minutes");
@@ -454,7 +493,9 @@ public class FitnessGUI extends Application {
 		avgBurpeesText.setText("Average Burpees Per Set:\t" + new DecimalFormat("#.###").format(avgBurpees)); 
 		avgSquatsText.setText("Average Squats Per Set:\t\t" + new DecimalFormat("#.###").format(avgSquats));
 		avgMilesWalkedText.setText("Average Miles Per Walk:\t\t" + new DecimalFormat("#.###").format(avgMilesWalked));
-
+		totalPlankMinsText.setText("Total Plank Time:\t\t\t" + new DecimalFormat("#.###").format(totalPlankMins) + " minutes");
+		avgPlankMinsText.setText("Total Plank Time:\t\t\t" + new DecimalFormat("#.###").format(avgPlankMins) + " minutes");
+		
 	}
 
 	//--------------------Setters and Getters---------------------
@@ -524,6 +565,22 @@ public class FitnessGUI extends Application {
 
 	public void setTotalWalkTime(int totalWalkTime) {
 		this.totalWalkTime = totalWalkTime;
+	}
+	
+	public double getTotalPlankMins() {
+		return totalPlankMins;
+	}
+	
+	public void setTotalPlankMins(double totalPlankMins) {
+		this.totalPlankMins = totalPlankMins;
+	}
+	
+	public double getAvgPlankMins(){
+		return avgPlankMins;
+	}
+	
+	public void setAvgPlankMins(double avgPlankMins){
+		this.avgPlankMins = avgPlankMins;
 	}
 
 	public double getAvgWalkTime() {

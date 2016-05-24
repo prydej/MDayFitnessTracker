@@ -17,6 +17,7 @@ public class Workouts {
 	ArrayList<Burpees> burpeeSets;
 	ArrayList<Squats> squatSets;
 	ArrayList<Walking> walks;
+	ArrayList<Plank> planks;
 	
 	public Workouts(){
 		pushupSets = new ArrayList<PushUps>();
@@ -24,9 +25,18 @@ public class Workouts {
 		burpeeSets = new ArrayList<Burpees>();
 		squatSets = new ArrayList<Squats>();
 		walks = new ArrayList<Walking>();
+		planks = new ArrayList<Plank>();
 	}
 	
 	//Getters and Setters
+	public ArrayList<Plank> getPlanks() {
+		return planks;
+	}
+
+	public void setPlanks(ArrayList<Plank> planks) {
+		this.planks = planks;
+	}
+	
 	public List<PushUps> getPushupSessions() {
 		return pushupSets;
 	}
