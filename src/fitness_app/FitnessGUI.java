@@ -420,6 +420,8 @@ public class FitnessGUI extends Application {
 			selected = new Burpees();
 		} else if (squats.isSelected()){
 			selected = new Squats();
+		} else if (plank.isSelected()){
+			selected = new Plank();
 		}
 
 		//Create ArrayList of information given
@@ -494,7 +496,7 @@ public class FitnessGUI extends Application {
 		avgSquatsText.setText("Average Squats Per Set:\t\t" + new DecimalFormat("#.###").format(avgSquats));
 		avgMilesWalkedText.setText("Average Miles Per Walk:\t\t" + new DecimalFormat("#.###").format(avgMilesWalked));
 		totalPlankMinsText.setText("Total Plank Time:\t\t\t" + new DecimalFormat("#.###").format(totalPlankMins) + " minutes");
-		avgPlankMinsText.setText("Total Plank Time:\t\t\t" + new DecimalFormat("#.###").format(avgPlankMins) + " minutes");
+		avgPlankMinsText.setText("Average Time Per Plank:\t\t" + new DecimalFormat("#.###").format(avgPlankMins) + " minutes");
 		
 	}
 

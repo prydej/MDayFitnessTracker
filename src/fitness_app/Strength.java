@@ -15,5 +15,12 @@ public class Strength extends Workout{
 	public void setReps(int reps) {
 		this.reps = reps;
 	}
+	
+	public double getMinutes() {
+		return minutes;
+	}
+	public void setMinutes(double minutes) {
+		this.minutes = minutes;
+	}
 
 }

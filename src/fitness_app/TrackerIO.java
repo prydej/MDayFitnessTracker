@@ -44,7 +44,7 @@ public class TrackerIO {
 
 	private String filename = "Workouts.json";
 
-	
+
 	/**
 	 * Writes information given about a set to json file
 	 * @param infoGiven: ArrayList of information given by user.
@@ -57,11 +57,11 @@ public class TrackerIO {
 
 		//create workouts object
 		Workouts workouts = new Workouts();
-		
+
 		//Instantiate Cardio and Strength object, just in case
 		Cardio cardio = new Cardio();
 		Strength strength = new Strength();
-		
+
 		//Declare output string
 		String workoutsJson;
 
@@ -78,29 +78,34 @@ public class TrackerIO {
 				e.printStackTrace();
 			}
 		}
-		
+
 		//--
 		//Append to existing workouts object
 		//--
-		
+
 		//Create instance of 
 		if (workout instanceof Cardio){ //a walking object has different fields than a strength object
 
 			cardio = (Cardio) workout; //Create cardio object
 			cardio.setMiles(infoGiven.get(0)); //Set distance
 			cardio.setMinutes((int) Math.floor(infoGiven.get(1))); // Set minutes walked, Automatically round partial minutes down
-			
-			
+
+
 			//Find date and time
 			cardio.setTime(this.getTimeString()); //set time field
 
 		} else {
-			
+
 			strength = (Strength) workout; //Create strength object
-			strength.setReps((int) Math.floor(infoGiven.get(0))); // Set reps, No half-repping
+
+			if (!(workout instanceof Plank)){ // set reps if workout is not plank
+				strength.setReps((int) Math.floor(infoGiven.get(0))); // Set reps, No half-repping
 			
-			//TODO Set time
-			strength.setTime(getTimeString());
+			} else { // set minutes if workout is planks	
+				strength.setMinutes(Math.floor(infoGiven.get(0))); // Set minutes planked, partial minutes are okay
+			
+			}
+			strength.setTime(getTimeString()); //Set time
 		}
 
 		//Add to appropriate arraylist in workouts
@@ -113,40 +118,44 @@ public class TrackerIO {
 
 			PushUps pushUps = (PushUps) strength; //Create push ups object
 			workouts.getPushupSessions().add(pushUps); //Add pushups
-			
+
 		} else if (workout instanceof SitUps){
 
 			SitUps situps = (SitUps) strength; //Create sit ups object
 			workouts.getSitupSessions().add(situps); //Add situps
-			
+
 		} else if (workout instanceof Burpees){
 
 			Burpees burpees = (Burpees) strength; //Create burpees object
 			workouts.getBurpeeSessions().add(burpees); //Add burpees
-			
+
 		} else if (workout instanceof Squats){
 
 			Squats squats = (Squats) strength; //Create squats object
 			workouts.getSquatSessions().add(squats); //Add squats
+
+		} else if (workout instanceof Plank){
 			
+			Plank plank = (Plank) strength; //create plank object
+			workouts.getPlanks().add(plank);
 		}
 
 		//Call serialize method
 		workoutsJson = this.serialize(workouts);
-		
+
 		//Replace output line separators with system line separators
 		workoutsJson.replace("\n", System.getProperty("line.separator"));
-		
+
 		//Declare writer
 		Writer writer = null;
-		
+
 		//Instantiate writer
 		try {
 			writer = new BufferedWriter(new FileWriter(filename, false));
 		} catch (IOException exObject) {
 			exObject.printStackTrace();
 		}
-		
+
 		//Write to file
 		try{
 			try {
@@ -161,22 +170,22 @@ public class TrackerIO {
 
 		return 0;
 	}
-	
-	
+
+
 	/**
 	 * Gets string encoding time and date in Navy Date-Time-Group
 	 * @return time: time in Navy Date-Time-Group
 	 */
 	public String getTimeString(){
-		
+
 		DateFormat formatObj = new SimpleDateFormat("ddHHmmMMMYY"); //Format for date
 		formatObj.setTimeZone(TimeZone.getTimeZone("GMT"));
 		Date dateObj = new Date(); //date
 		String time = formatObj.format(dateObj); //get string of date
-		
+
 		//Insert time zone letter into string
 		time = time.substring(0, 6) + "Z" + time.substring(6);
-		
+
 		return time;
 	}
 
@@ -196,7 +205,7 @@ public class TrackerIO {
 			reader = new BufferedReader(new FileReader(filename)); //create reader
 		} catch (IOException e) {
 			throw new IOException();
-			
+
 		}
 
 		try {

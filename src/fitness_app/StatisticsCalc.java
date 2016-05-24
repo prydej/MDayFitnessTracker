@@ -25,11 +25,11 @@ public class StatisticsCalc {
 
 	//For lambdas to operate on lists of strength workouts
 	public interface StrengthStatisticFinder {
-		int find(ArrayList<Strength> list, int element);
+		double find(ArrayList<Strength> list, int element);
 	}
-	
+
 	//For lambda to use on strength exercises
-	public int findStat(ArrayList<Strength> list, int element, StrengthStatisticFinder strengthStatsfinder){
+	public double findStat(ArrayList<Strength> list, int element, StrengthStatisticFinder strengthStatsfinder){
 		return strengthStatsfinder.find(list, element);
 	}
 
@@ -42,18 +42,18 @@ public class StatisticsCalc {
 	public double findStat(ArrayList<Cardio> list, int element, CardioStatisticFinder cardioStatsfinder){
 		return cardioStatsfinder.find(list, element);
 	}
-	
+
 	//For lambdas to operate on all workouts
 	//Return type of ArrayList of Strings because time is in string format. 
 	public interface WorkoutStatisticsFinder {
 		String find(ArrayList<Workout> list, int element);
 	}
-	
+
 	//For lambdas to use on all workouts
 	public String findStat(ArrayList<Workout> list, int element, WorkoutStatisticsFinder workoutStatsFinder){
 		return workoutStatsFinder.find(list, element);
 	}
-	
+
 	public void findStats(FitnessGUI gui){
 
 		//New stats object
@@ -71,83 +71,123 @@ public class StatisticsCalc {
 		} catch (IOException e) {
 			return;
 		}
-		
+
 		//Define reps lambda
 		StrengthStatisticFinder getReps = (list, element) -> {
 			return list.get(element).getReps();
 		};
-		
+
+		//Define plank minutes lambda
+		StrengthStatisticFinder getStrengthMins = (list, element) -> {
+			return list.get(element).getMinutes();
+		};
+
 		//Define walk miles lambda
 		CardioStatisticFinder getMiles = (list, element) -> {
 			return list.get(element).getMiles();
 		};
-		
+
 		//Define walk time lambda
 		CardioStatisticFinder getMinutes = (list, element) -> {
 			return list.get(element).getMinutes();
 		};
-		
+
 		//Define clock time lambda
 		WorkoutStatisticsFinder getTime = (list, element) -> {
 			return list.get(element).getTime();
 		};
-		
+
 		//For each strength workout, find total reps
 		// --Find stat
-		int totalBurpees = (int) this.addAllInArrayList(getStrengthStats(workouts.burpeeSets, getReps));
-		int totalPushups = (int) this.addAllInArrayList(getStrengthStats(workouts.pushupSets, getReps));
-		int totalSitups = (int) this.addAllInArrayList(getStrengthStats(workouts.situpSets, getReps));
-		int totalSquats = (int) this.addAllInArrayList(getStrengthStats(workouts.squatSets, getReps));
-		
+		int totalBurpees = (int) this.sumAllInArrayList(getStrengthStats(workouts.burpeeSets, getReps));
+		int totalPushups = (int) this.sumAllInArrayList(getStrengthStats(workouts.pushupSets, getReps));
+		int totalSitups = (int) this.sumAllInArrayList(getStrengthStats(workouts.situpSets, getReps));
+		int totalSquats = (int) this.sumAllInArrayList(getStrengthStats(workouts.squatSets, getReps));
+		double totalPlankMins = this.sumAllInArrayList(getStrengthStats(workouts.planks, getStrengthMins));
+
 		// --Set stat
 		gui.setTotalBurpees(totalBurpees);
 		gui.setTotalSquats(totalSquats);
 		gui.setTotalPushups(totalPushups);
 		gui.setTotalSitups(totalSitups);
-		
+		gui.setTotalPlankMins(totalPlankMins);
+
 		//For each strength workout, find average reps per day
 		// --Find number of workouts in each array
 		int numBurpeeSets = workouts.burpeeSets.size();
-		int numSquatSets = workouts.burpeeSets.size();
-		int numPushupSets = workouts.burpeeSets.size();
-		int numSitupSets = workouts.burpeeSets.size();
-		
+		int numSquatSets = workouts.squatSets.size();
+		int numPushupSets = workouts.pushupSets.size();
+		int numSitupSets = workouts.situpSets.size();
+		int numPlankSets = workouts.planks.size();
+
 		// --Find average reps per workout
-		double avgBurpees = (double) totalBurpees/ (double) numBurpeeSets;
-		double avgSquats = (double) totalSquats/ (double) numSquatSets;
-		double avgPushups = (double) totalPushups/ (double) numPushupSets;
-		double avgSitups = (double) totalSitups/ (double) numSitupSets;
-		
+		double avgBurpees = (double) totalBurpees / (double) numBurpeeSets;
+		double avgSquats = (double) totalSquats / (double) numSquatSets;
+		double avgPushups = (double) totalPushups / (double) numPushupSets;
+		double avgSitups = (double) totalSitups / (double) numSitupSets;
+		double avgPlankMins = totalPlankMins / (double) numPlankSets;
+
+		// --If no sets done, set avg to 0
+		if (numBurpeeSets == 0){
+			avgBurpees = 0;
+		}
+
+		if (numSitupSets == 0){
+			avgSitups = 0;
+		}
+
+		if (numPushupSets == 0){
+			avgPushups = 0;
+		}
+
+		if (numSquatSets == 0){
+			avgSquats = 0;
+		}
+
+		if (numPlankSets == 0){
+			avgPlankMins = 0;
+		}
+
 		// --Set stat
 		gui.setAvgBurpees(avgBurpees);
 		gui.setAvgSquats(avgSquats);
 		gui.setAvgPushups(avgPushups);
 		gui.setAvgSitups(avgSitups);
+		gui.setAvgPlankMins(avgPlankMins);
 
 		//Find and set total walking time
-		int totalWalkTime = (int) this.addAllInArrayList(getCardioStats(workouts.walks, getMinutes));
+		int totalWalkTime = (int) this.sumAllInArrayList(getCardioStats(workouts.walks, getMinutes));
 		gui.setTotalWalkTime(totalWalkTime);
-		
+
 		//Find and set total walking miles
-		double totalMilesWalked = this.addAllInArrayList(getCardioStats(workouts.walks, getMiles));
+		double totalMilesWalked = this.sumAllInArrayList(getCardioStats(workouts.walks, getMiles));
 		gui.setTotalMilesWalked(totalMilesWalked);
-		
+
 		//Find number of walks
 		int numWalks = workouts.walks.size();
-		
-		//Find and set average walking time per walk
-		double avgWalkingTime = (double) totalWalkTime/ (double) numWalks;
-		gui.setAvgWalkTime(avgWalkingTime);
-		
-		//Find and set average walking distance per walk
-		double avgMilesWalked = totalMilesWalked/numWalks;
-		gui.setAvgMilesWalked(avgMilesWalked);
 
-		//Find and set average speed per walk
+		//Find average walking time per walk
+		double avgWalkingTime = (double) totalWalkTime/ (double) numWalks;
+
+		//Find average walking distance per walk
+		double avgMilesWalked = totalMilesWalked/numWalks;
+
+		//Find average speed per walk
 		double avgSpeed = (avgMilesWalked/avgWalkingTime) * 60; //Times 60 to convert from miles per minute to miles per hour
+
+		//If no walks, set walk averages to zero
+		if (numWalks == 0){
+			avgWalkingTime = 0;
+			avgMilesWalked = 0;
+			avgSpeed = 0;
+		}
+
+		//Set walking averages
+		gui.setAvgWalkTime(avgWalkingTime);
+		gui.setAvgMilesWalked(avgMilesWalked);
 		gui.setAvgWalkingSpeed(avgSpeed);
 	}
-	
+
 	/**
 	 * Find array of specified statistics in a specified object extending Strength in a specified ArrayList with passed lambda expression
 	 * @param list: list of 
@@ -155,10 +195,10 @@ public class StatisticsCalc {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayList<Integer> getStrengthStats(ArrayList<? extends Strength> list, StrengthStatisticFinder finder){
+	public ArrayList<Double> getStrengthStats(ArrayList<? extends Strength> list, StrengthStatisticFinder finder){
 		//Create counter
 		int dolphinfish = 0;
-		ArrayList<Integer> stats = new ArrayList<>();//list iterator
+		ArrayList<Double> stats = new ArrayList<>();//list iterator
 
 		//Iterate through all elements of the given list
 		for (dolphinfish = 0; dolphinfish < list.size(); dolphinfish++){
@@ -192,7 +232,7 @@ public class StatisticsCalc {
 
 		return stats;
 	}
-	
+
 	/**
 	 * Find array of specified statistics in a specified object extending Workout in a specified ArrayList with passed lambda expression
 	 * @param element: 
@@ -214,21 +254,21 @@ public class StatisticsCalc {
 
 		return stats;
 	}
-	
+
 	/**
 	 * Add all numbers in an arraylist of numbers. Other numbers used can be cast to doubles
 	 * @param arrayList: to add on
 	 * @return sum of all numbers
 	 */
-	public <T extends Number> double addAllInArrayList(ArrayList<T> arrayList){
-		
+	public <T extends Number> double sumAllInArrayList(ArrayList<T> arrayList){
+
 		double sum = 0d;
-		
+
 		for (Number element : arrayList){
 			sum += element.doubleValue();
 		}
-		
+
 		return sum;
 	}
-	
+
 }
