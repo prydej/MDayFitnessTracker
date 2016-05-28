@@ -102,7 +102,7 @@ public class TrackerIO {
 				strength.setReps((int) Math.floor(infoGiven.get(0))); // Set reps, No half-repping
 			
 			} else { // set minutes if workout is planks	
-				strength.setMinutes(Math.floor(infoGiven.get(0))); // Set minutes planked, partial minutes are okay
+				strength.setMinutes(infoGiven.get(0)); // Set minutes planked, partial minutes are okay
 			
 			}
 			strength.setTime(getTimeString()); //Set time

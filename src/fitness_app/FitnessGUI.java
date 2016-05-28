@@ -188,8 +188,9 @@ public class FitnessGUI extends Application {
 		RowConstraints row4 = new RowConstraints(rowHeight);
 		RowConstraints row5 = new RowConstraints(rowHeight);
 		RowConstraints row6 = new RowConstraints(rowHeight);
+		RowConstraints row7 = new RowConstraints(rowHeight);
 
-		enterDataPromptsPane.getRowConstraints().addAll(row0, row1, row2, row3, row4, row5, row6);
+		enterDataPromptsPane.getRowConstraints().addAll(row0, row1, row2, row3, row4, row5, row6, row7);
 
 		//Set initial grid constraints for statistics tab
 		GridPane.setConstraints(strengthHeader, 1, 1);
